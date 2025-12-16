@@ -1,0 +1,45 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer Red Circle -->
+  <circle cx="150" cy="150" r="145" fill="#DC143C" stroke="#8B0000" stroke-width="2"/>
+  
+  <!-- Inner Blue Circle -->
+  <circle cx="150" cy="130" r="110" fill="#0066CC" stroke="none"/>
+  
+  <!-- Torch Base (Light Cream) -->
+  <rect x="130" y="85" width="40" height="25" fill="#FFFACD" stroke="none"/>
+  <rect x="125" y="108" width="50" height="15" fill="#FFF8DC" stroke="none"/>
+  
+  <!-- Torch Flame (Yellow) -->
+  <polygon points="150,70 145,85 150,82 155,85" fill="#FFD700" stroke="none"/>
+  
+  <!-- Left Hand (Yellow) -->
+  <ellipse cx="90" cy="130" rx="28" ry="35" fill="#FFD700" stroke="none"/>
+  <rect x="65" y="105" width="35" height="20" rx="10" fill="#FFD700" stroke="none"/>
+  <circle cx="70" cy="100" r="8" fill="#FFD700" stroke="none"/>
+  <circle cx="85" cy="95" r="7" fill="#FFD700" stroke="none"/>
+  
+  <!-- Right Hand (Yellow) -->
+  <ellipse cx="210" cy="130" rx="28" ry="35" fill="#FFD700" stroke="none"/>
+  <rect x="200" y="105" width="35" height="20" rx="10" fill="#FFD700" stroke="none"/>
+  <circle cx="230" cy="100" r="8" fill="#FFD700" stroke="none"/>
+  <circle cx="215" cy="95" r="7" fill="#FFD700" stroke="none"/>
+  
+  <!-- Text Arc Path and Text -->
+  <defs>
+    <path id="topArc" d="M 50,150 A 100,100 0 0,1 250,150" fill="none"/>
+    <path id="bottomArc" d="M 250,150 A 100,100 0 0,1 50,150" fill="none"/>
+  </defs>
+  
+  <!-- Top Text -->
+  <text font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#00FF00" letter-spacing="4">
+    <textPath href="#topArc" startOffset="50%" text-anchor="middle">
+      SEMANGAT BISA JAYA
+    </textPath>
+  </text>
+  
+  <!-- Bottom Text (Yellow Banner) -->
+  <ellipse cx="150" cy="230" rx="110" ry="35" fill="#FFD700" stroke="#8B0000" stroke-width="2"/>
+  <text font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#DC143C" text-anchor="middle" x="150" y="240" letter-spacing="2">
+    SDN SUSUKAN 08 PAGI
+  </text>
+</svg>
