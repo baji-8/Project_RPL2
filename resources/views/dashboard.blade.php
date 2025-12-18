@@ -245,13 +245,14 @@
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @forelse($materiList as $materi)
-                <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition">
-                    <div class="h-40 bg-gradient-to-br from-green-100 to-blue-100 flex items-center justify-center overflow-hidden">
-                        @if($materi->thumbnail)
-                            <img src="{{ asset('storage/' . $materi->thumbnail) }}" alt="{{ $materi->judul }}" class="w-full h-full object-cover">
-                        @else
-                            <div class="text-gray-300 text-center">
-                                <svg class="w-16 h-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <a href="{{ route('materi.show', $materi->id) }}"
+                    class="block bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition cursor-pointer">
+                        <div class="h-40 bg-gradient-to-br from-green-100 to-blue-100 flex items-center justify-center overflow-hidden">
+                            @if($materi->thumbnail)
+                                <img src="{{ asset('storage/' . $materi->thumbnail) }}" alt="{{ $materi->judul }}" class="w-full h-full object-cover">
+                            @else
+                                <div class="text-gray-300 text-center">
+                                    <svg class="w-16 h-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                                 </svg>
                             </div>
@@ -261,7 +262,7 @@
                         <h3 class="text-lg font-bold text-gray-900 mb-2">{{ $materi->judul }}</h3>
                         <p class="text-sm text-gray-600 mb-3 line-clamp-2">{{ $materi->deskripsi ?? 'Pelajari materi ini dengan baik' }}</p>
                     </div>
-                </div>
+                </a>
                 @empty
                 <div class="col-span-3 bg-white rounded-2xl shadow-md p-8 text-center text-gray-500">
                     Belum ada materi pembelajaran
