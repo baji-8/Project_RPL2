@@ -86,7 +86,8 @@ class QuizController extends Controller
             'user_id' => Auth::id(),
             'quiz_id' => $quiz->id,
             'waktu_mulai' => now(),
-            'status' => 'ongoing',
+            'waktu_selesai'=> now()->addMinutes($quiz->durasi),
+            'status'  => 'ongoing',
         ]);
 
         return redirect()->route('quiz.attempt', $attempt->id);
