@@ -7,6 +7,8 @@ use App\Models\Materi;
 use App\Models\Quiz;
 use App\Models\QuizAttempt;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 
 class TeacherController extends Controller
 {
@@ -260,7 +262,7 @@ class TeacherController extends Controller
         $quiz = Quiz::findOrFail($quizId);
         
         // Check authorization
-        if (auth()->user()->role !== 'teacher') {
+        if (Auth()->user()->role !== 'teacher') {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
@@ -289,7 +291,7 @@ class TeacherController extends Controller
      */
     public function profileEdit()
     {
-        $user = auth()->user();
+        $user = Auth()->user();
         return view('teacher.profile.edit', compact('user'));
     }
 
@@ -298,7 +300,7 @@ class TeacherController extends Controller
      */
     public function profileUpdate(Request $request)
     {
-        $user = auth()->user();
+        $user = Auth()->user();
 
         $request->validate([
             'name' => 'required|string|max:255',

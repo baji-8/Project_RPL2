@@ -76,17 +76,20 @@
                         <span class="inline-block px-4 py-2 bg-blue-100 text-blue-700 rounded-lg font-semibold text-sm mb-4">
                             Soal <span id="currentQuestion">1</span> dari <span id="totalQuestions">{{ count($questions) }}</span>
                         </span>
-                        <h2 class="text-2xl font-bold text-gray-900" id="questionText">{{ $questions[0]->pertanyaan ?? '' }}</h2>
+                    <h2 class="text-2xl font-bold text-gray-900" id="questionText"></h2>
                     </div>
 
                     <!-- Question Text -->
                     <div id="questionContainer">
                         @foreach($questions as $index => $question)
-                        <div class="question-block {{ $index === 0 ? '' : 'hidden' }}" data-question-id="{{ $question->id }}" data-question-index="{{ $index }}">
+                        <div class="question-block {{ $index === 0 ? '' : 'hidden' }}"
+                            data-question-id="{{ $question->id }}"
+                            data-question-index="{{ $index }}"
+                            data-question-text="{{ $question->pertanyaan }}">
                             <!-- Answer Options -->
                             <div class="space-y-3">
                                 @php
-                                    $optionLabels = ['A', 'B', 'C', 'D', 'E'];
+                                    $labels = ['A', 'B', 'C', 'D'];
                                 @endphp
                                 @foreach($question->pilihan as $key => $pilihan)
                                 <button 
@@ -94,11 +97,11 @@
                                     class="answer-option w-full p-4 border-2 rounded-xl text-left transition transform hover:scale-105 flex items-start space-x-4
                                         {{ isset($answers[$question->id]) && $answers[$question->id] == $key ? 'border-green-500 bg-green-50 shadow-md' : 'border-gray-300 bg-white hover:border-gray-400' }}"
                                     data-question-id="{{ $question->id }}"
-                                    data-answer="{{ $key }}"
+                                    data-answer="{{ $labels[$key] }}"
                                 >
                                     <span class="inline-flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm flex-shrink-0
                                         {{ isset($answers[$question->id]) && $answers[$question->id] == $key ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-700' }}">
-                                        {{ $optionLabels[$key] ?? $key }}
+                                        {{ $labels[$key]}}
                                     </span>
                                     <span class="text-gray-900 font-medium flex-1 text-left pt-1">{{ $pilihan }}</span>
                                 </button>
@@ -165,13 +168,13 @@
             }
             
             const minutes = Math.floor(remainingTime / 60);
-            const seconds = remainingTime % 60;
+            const seconds = Math.floor(remainingTime % 60);
             
-            timerElement.textContent = 
+            timerElement.textContent =
                 String(minutes).padStart(2, '0') + ':' +
                 String(seconds).padStart(2, '0');
-            
-            remainingTime--;
+
+            remainingTime = Math.floor(remainingTime - 1);
         }
 
         setInterval(updateTimer, 1000);
@@ -185,6 +188,10 @@
             
             currentQuestionIndex = index;
             currentQuestionSpan.textContent = index + 1;
+
+            const activeQuestion = questions[index];
+            document.getElementById('questionText').textContent =
+                activeQuestion.dataset.questionText;
             
             // Update navigation buttons
             prevButton.disabled = index === 0;

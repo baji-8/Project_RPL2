@@ -57,8 +57,9 @@ class ParentController extends Controller
                         'wrong' => $attempt->jumlah_salah,
                         'status' => $attempt->status,
                         'date' => $attempt->created_at,
-                        'duration' => $attempt->waktu_selesai ? 
-                            $attempt->waktu_selesai->diffInMinutes($attempt->waktu_mulai) : null
+                        'duration' => ($attempt->waktu_mulai && $attempt->waktu_selesai)
+                            ? $attempt->waktu_mulai->diffInSeconds($attempt->waktu_selesai)
+                            : null
                     ];
                 });
         }

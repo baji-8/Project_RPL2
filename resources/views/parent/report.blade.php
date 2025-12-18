@@ -104,8 +104,12 @@
                                     <div class="flex items-center justify-between text-sm text-gray-500">
                                         <span>
                                             ✓ {{ $attempt['correct'] }} | ✗ {{ $attempt['wrong'] }}
-                                            @if($attempt['duration'])
-                                                | ⏱ {{ $attempt['duration'] }} menit
+                                            @if($attempt['duration'] !== null)
+                                                @php
+                                                    $minutes = intdiv($attempt['duration'], 60);
+                                                    $seconds = $attempt['duration'] % 60;
+                                                @endphp
+                                                | ⏱ {{ $minutes }} menit {{ $seconds }} detik
                                             @endif
                                         </span>
                                         <span>{{ $attempt['date']->format('d M Y H:i') }}</span>
