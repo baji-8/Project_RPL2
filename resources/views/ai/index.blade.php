@@ -50,37 +50,7 @@
                         </div>
                     </div>
                     <div class="message-ai rounded-2xl px-4 py-3 max-w-md">
-                        <p class="text-gray-800">Ada pertanyaan apa yang ingin anda tanyakan ?</p>
-                    </div>
-                </div>
-
-                <!-- Example User Message -->
-                <div class="flex items-start space-x-3 justify-end">
-                    <div class="message-user rounded-2xl px-4 py-3 max-w-md">
-                        <p class="text-gray-800">Apa itu bahasa indonesia ?</p>
-                    </div>
-                    <div class="flex-shrink-0">
-                        <div class="w-10 h-10 rounded-full bg-green-500 border-2 border-white flex items-center justify-center">
-                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Example AI Response -->
-                <div class="flex items-start space-x-3">
-                    <div class="flex-shrink-0">
-                        <div class="w-10 h-10 rounded-full bg-white border-2 border-gray-300 flex items-center justify-center">
-                            <svg class="w-6 h-6 text-gray-600" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="message-ai rounded-2xl px-4 py-3 max-w-md">
-                        <p class="text-gray-800">
-                            Bahasa Indonesia adalah bahasa resmi dan nasional di Indonesia yang berfungsi sebagai alat pemersatu bangsa, bahasa negara, bahasa pengantar pendidikan, dan lambang identitas nasional.
-                        </p>
+                        <p class="text-gray-800">Ada pertanyaan apa yang ingin kamu tanyakan ?</p>
                     </div>
                 </div>
             </div>

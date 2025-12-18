@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
+        $this->call(AiKeywordSeeder::class);
         // User::factory(10)->create();
 
         // Create test student for parent login
