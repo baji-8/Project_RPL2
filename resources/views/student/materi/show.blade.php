@@ -188,9 +188,10 @@
                             </svg>
                         </a>
                     @else
-                        <div class="px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold">
+                        <a href="{{ route('dashboard') }}"
+                        class="px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition inline-flex items-center justify-center">
                             ✓ Terakhir - Semua Materi Selesai!
-                        </div>
+                        </a>
                     @endif
                 </div>
             </div>
