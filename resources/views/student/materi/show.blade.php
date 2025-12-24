@@ -124,7 +124,13 @@
                 <div class="mb-8 pb-8 border-b border-gray-200">
                     <h2 class="text-2xl font-bold text-gray-900 mb-4">Konten Materi</h2>
                     <div class="konten-materi prose prose-sm max-w-none text-gray-700">
-                        {!! nl2br(e($materi->konten)) !!}
+                        {!! nl2br(
+                            preg_replace(
+                                '/(https?:\/\/[^\s]+)/',
+                                '<a href="$1" target="_blank" class="text-blue-600 underline font-semibold hover:text-blue-800">$1</a>',
+                                e($materi->konten)
+                            )
+                        ) !!}
                     </div>
                 </div>
 
