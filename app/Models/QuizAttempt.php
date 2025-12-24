@@ -40,6 +40,11 @@ class QuizAttempt extends Model
         'is_finished' => 'boolean',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     // Relasi ke quiz
     public function quiz()
     {

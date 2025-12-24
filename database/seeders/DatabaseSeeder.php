@@ -119,43 +119,90 @@ class DatabaseSeeder extends Seeder
         QuizAttempt::create([
             'user_id' => $student1->id,
             'quiz_id' => $quiz1->id,
+            'waktu_mulai' => now()->subMinutes(30),
+            'waktu_selesai' => now(),
             'nilai' => 85,
+            'jumlah_benar' => 17,
+            'jumlah_salah' => 3,
             'status' => 'completed',
         ]);
 
         QuizAttempt::create([
             'user_id' => $student1->id,
             'quiz_id' => $quiz2->id,
+            'waktu_mulai' => now()->subMinutes(40),
+            'waktu_selesai' => now(),
             'nilai' => 92,
+            'jumlah_benar' => 18,
+            'jumlah_salah' => 2,
             'status' => 'completed',
         ]);
 
         QuizAttempt::create([
             'user_id' => $student2->id,
             'quiz_id' => $quiz1->id,
+            'waktu_mulai' => now()->subMinutes(30),
+            'waktu_selesai' => now(),
             'nilai' => 65,
+            'jumlah_benar' => 13,
+            'jumlah_salah' => 7,
             'status' => 'completed',
         ]);
 
         QuizAttempt::create([
             'user_id' => $student2->id,
             'quiz_id' => $quiz2->id,
+            'waktu_mulai' => now()->subMinutes(40),
+            'waktu_selesai' => now(),
             'nilai' => 72,
+            'jumlah_benar' => 14,
+            'jumlah_salah' => 6,
             'status' => 'completed',
         ]);
 
         QuizAttempt::create([
             'user_id' => $student3->id,
             'quiz_id' => $quiz1->id,
+            'waktu_mulai' => now()->subMinutes(30),
+            'waktu_selesai' => now(),
             'nilai' => 55,
+            'jumlah_benar' => 11,
+            'jumlah_salah' => 9,
             'status' => 'completed',
         ]);
 
         QuizAttempt::create([
             'user_id' => $student3->id,
             'quiz_id' => $quiz2->id,
+            'waktu_mulai' => now()->subMinutes(40),
+            'waktu_selesai' => now(),
             'nilai' => 48,
+            'jumlah_benar' => 9,
+            'jumlah_salah' => 11,
             'status' => 'completed',
         ]);
+
+        $guruTest = User::updateOrCreate(
+            ['email' => 'guru@test.com'],
+            [
+                'name' => 'Guru Test',
+                'password' => bcrypt('password'),
+                'role' => 'teacher',
+                'tanggal_lahir' => '1990-01-01',
+            ]
+        );
+
+        // Akun Siswa (login via NISN)
+        $siswaTest = User::updateOrCreate(
+            ['nisn' => '1234567890'],
+            [
+                'name' => 'Siswa Test',
+                'email' => 'siswa@test.com',
+                'password' => bcrypt('password'),
+                'role' => 'student',
+                'kelas' => '6A',
+                'tanggal_lahir' => '2014-01-01',
+            ]
+        );
     }
 }

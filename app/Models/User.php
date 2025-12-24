@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\QuizAttempt;
 
 class User extends Authenticatable
 {
@@ -66,6 +67,6 @@ class User extends Authenticatable
 
     public function quizAttempts()
     {
-        return $this->hasMany(QuizAttempt::class);
+        return $this->hasMany(QuizAttempt::class, 'user_id');
     }
 }

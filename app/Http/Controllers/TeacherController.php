@@ -12,66 +12,59 @@ use Illuminate\Support\Facades\Auth;
 
 class TeacherController extends Controller
 {
-    public function dashboard(Request $request)
+    public function dashboard()
     {
-        try {
-            // Get all materials
-            $materi = Materi::orderBy('urutan')->get();
-            
-            // Get all quizzes
-            $quizzes = Quiz::with('questions')->latest()->get();
-            
-            // Get all students
-            $students = User::where('role', 'student')->get();
-            
-            // Get quiz attempt statistics
-            $quizAttempts = QuizAttempt::with(['user', 'quiz'])->latest()->get();
-            
-            // Calculate statistics
-            $totalStudents = $students->count();
-            $totalMateri = $materi->count();
-            $totalQuizzes = $quizzes->count();
-            $averageScore = $quizAttempts->count() > 0 ? 
-                round($quizAttempts->avg('nilai'), 2) : 0;
-            
-            // Get quiz scores by student (for teacher overview)
-            $studentScores = [];
-            foreach ($students as $student) {
-                $attempts = $student->quizAttempts()->latest()->get();
-                $studentScores[$student->id] = [
-                    'name' => $student->name,
-                    'nisn' => $student->nisn,
-                    'total_attempts' => $attempts->count(),
-                    'average_score' => $attempts->count() > 0 ? 
-                        round($attempts->avg('nilai'), 2) : 0,
-                    'latest_attempt' => $attempts->first()
-                ];
-            }
-        } catch (\Exception $e) {
-            // If database tables don't exist, show empty dashboard
-            $materi = collect([]);
-            $quizzes = collect([]);
-            $students = collect([]);
-            $quizAttempts = collect([]);
-            $totalStudents = 0;
-            $totalMateri = 0;
-            $totalQuizzes = 0;
-            $averageScore = 0;
-            $studentScores = [];
+        // Ambil semua materi
+        $materi = Materi::orderBy('urutan')->get();
+
+        // Ambil semua kuis + soal
+        $quizzes = Quiz::with('questions')->latest()->get();
+
+        // Ambil semua siswa
+        $students = User::where('role', 'student')->get();
+
+        // Ambil semua attempt kuis
+        $quizAttempts = QuizAttempt::with(['user', 'quiz'])
+            ->latest()
+            ->get();
+
+        // Statistik
+        $totalStudents = $students->count();
+        $totalMateri   = $materi->count();
+        $totalQuizzes  = $quizzes->count();
+        $averageScore  = $quizAttempts->count() > 0
+            ? round($quizAttempts->avg('nilai'), 2)
+            : 0;
+
+        // Nilai per siswa
+        $studentScores = [];
+        foreach ($students as $student) {
+            $attempts = $student->quizAttempts()->latest()->get();
+
+            $studentScores[$student->id] = [
+                'name' => $student->name,
+                'nisn' => $student->nisn,
+                'total_attempts' => $attempts->count(),
+                'average_score' => $attempts->count() > 0
+                    ? round($attempts->avg('nilai'), 2)
+                    : 0,
+                'latest_attempt' => $attempts->first(),
+            ];
         }
-        
-        return view('teacher.dashboard-comprehensive', [
-            'materi' => $materi,
-            'quizzes' => $quizzes,
-            'students' => $students,
-            'quizAttempts' => $quizAttempts,
-            'totalStudents' => $totalStudents,
-            'totalMateri' => $totalMateri,
-            'totalQuizzes' => $totalQuizzes,
-            'averageScore' => $averageScore,
-            'studentScores' => $studentScores
-        ]);
+
+        return view('teacher.dashboard-comprehensive', compact(
+            'materi',
+            'quizzes',
+            'students',
+            'quizAttempts',
+            'totalStudents',
+            'totalMateri',
+            'totalQuizzes',
+            'averageScore',
+            'studentScores'
+        ));
     }
+
     
     // Manage Materi
     public function materiIndex()
@@ -262,7 +255,7 @@ class TeacherController extends Controller
         $quiz = Quiz::findOrFail($quizId);
         
         // Check authorization
-        if (Auth()->user()->role !== 'teacher') {
+        if (Auth::user()->role !== 'teacher') {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
@@ -291,7 +284,7 @@ class TeacherController extends Controller
      */
     public function profileEdit()
     {
-        $user = Auth()->user();
+        $user = Auth::user();
         return view('teacher.profile.edit', compact('user'));
     }
 
@@ -300,7 +293,7 @@ class TeacherController extends Controller
      */
     public function profileUpdate(Request $request)
     {
-        $user = Auth()->user();
+        $user = Auth::user();
 
         $request->validate([
             'name' => 'required|string|max:255',
