@@ -21,6 +21,7 @@ class Materi extends Model
     ];
 
     protected $casts = [
+        'kelas' => 'array',
         'is_active' => 'boolean',
     ];
 

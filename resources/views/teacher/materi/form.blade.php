@@ -45,6 +45,22 @@
 
         <!-- Form -->
         <div class="bg-white rounded-lg shadow p-8">
+            @php
+                $selectedKelas = [];
+
+                if (old('kelas')) {
+                    $selectedKelas = old('kelas');
+                } elseif (isset($materi)) {
+                    if (is_array($materi->kelas)) {
+                        $selectedKelas = $materi->kelas;
+                    } elseif (is_string($materi->kelas)) {
+                        $decoded = json_decode($materi->kelas, true);
+                        $selectedKelas = is_array($decoded)
+                            ? $decoded
+                            : [$materi->kelas];
+                    }
+                }
+            @endphp
             <form method="POST" action="{{ isset($materi) ? route('teacher.materi.update', $materi->id) : route('teacher.materi.store') }}">
                 @csrf
                 @if(isset($materi))
@@ -64,15 +80,31 @@
 
                 <!-- Kelas -->
                 <div class="mb-6">
-                    <label for="kelas" class="block text-sm font-semibold text-gray-900 mb-2">Kelas <span class="text-red-600">*</span></label>
-                    <select id="kelas" name="kelas" 
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent @error('kelas') border-red-500 @enderror"
-                        required>
-                        <option value="">Pilih Kelas</option>
-                        @for($i = 1; $i <= 6; $i++)
-                            <option value="Kelas {{ $i }}" {{ old('kelas', $materi->kelas ?? '') == "Kelas $i" ? 'selected' : '' }}>Kelas {{ $i }}</option>
+                    <label class="block text-sm font-semibold text-gray-900 mb-2">
+                        Kelas <span class="text-red-600">*</span>
+                    </label>
+
+                    <div class="grid grid-cols-3 gap-4">
+                        @for ($kelas = 6; $kelas >= 1; $kelas--)
+                            @foreach (['A', 'B', 'C'] as $huruf)
+                                @php
+                                    $kodeKelas = $kelas . $huruf;
+                                @endphp
+
+                                <label class="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        name="kelas[]"
+                                        value="{{ $kodeKelas }}"
+                                        class="rounded border-gray-300 text-green-600 focus:ring-green-500"
+                                        {{ in_array($kodeKelas, $selectedKelas) ? 'checked' : '' }}
+                                    >
+                                    <span class="text-sm">Kelas {{ $kodeKelas }}</span>
+                                </label>
+                            @endforeach
                         @endfor
-                    </select>
+                    </div>
+
                     @error('kelas')
                         <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                     @enderror

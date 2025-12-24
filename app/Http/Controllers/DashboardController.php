@@ -23,15 +23,22 @@ class DashboardController extends Controller
         try {
             // Get materi pembelajaran
             $materiList = Materi::where('is_active', true)
-                ->where('kelas', $user->kelas)
+                ->where(function ($query) use ($user) {
+                    $query->where('kelas', $user->kelas)
+                        ->orWhere('kelas', 'LIKE', '%"' . $user->kelas . '"%')
+                        ->orWhereNull('kelas');
+                })
                 ->orderBy('urutan')
-                ->orderBy('created_at', 'desc')
                 ->limit(4)
                 ->get();
             
             // Get daily quizzes with attempt status
             $dailyQuizzes = Quiz::where('is_active', true)
-                ->where('kelas', $user->kelas)
+                ->where(function ($query) use ($user) {
+                    $query->where('kelas', $user->kelas)
+                        ->orWhere('kelas', 'LIKE', '%"' . $user->kelas . '"%')
+                        ->orWhereNull('kelas');
+                })
                 ->where(function($query) {
                     $query->whereNull('waktu_mulai')
                         ->orWhere('waktu_mulai', '<=', now());

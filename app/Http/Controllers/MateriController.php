@@ -15,7 +15,11 @@ class MateriController extends Controller
         $user = Auth::user();
 
         $materi = Materi::where('is_active', true)
-            ->where('kelas', $user->kelas)
+            ->where(function ($query) use ($user) {
+                $query->where('kelas', $user->kelas)
+                    ->orWhere('kelas', 'LIKE', '%"' . $user->kelas . '"%')
+                    ->orWhereNull('kelas');
+            })
             ->orderBy('urutan')
             ->get();
 
@@ -37,8 +41,12 @@ class MateriController extends Controller
             $user = Auth::user();
 
             $materi = Materi::where('id', $id)
-                ->where('kelas', $user->kelas)
                 ->where('is_active', true)
+                ->where(function ($query) use ($user) {
+                    $query->where('kelas', $user->kelas)
+                        ->orWhere('kelas', 'LIKE', '%"' . $user->kelas . '"%')
+                        ->orWhereNull('kelas');
+                })
                 ->firstOrFail();
             
             if (!$materi->is_active) {
@@ -47,9 +55,13 @@ class MateriController extends Controller
 
             // Get all materials ordered by urutan
             $allMateri = Materi::where('is_active', true)
-                ->where('kelas', $user->kelas)
+                ->where(function ($query) use ($user) {
+                    $query->where('kelas', $user->kelas)
+                        ->orWhere('kelas', 'LIKE', '%"' . $user->kelas . '"%')
+                        ->orWhereNull('kelas');
+                })
                 ->orderBy('urutan')
-                ->get();    
+                ->get();  
 
             // Get completed materials
             $completedMateri = AktivitasPembelajaran::where('user_id', $user->id)

@@ -29,6 +29,7 @@ class Quiz extends Model
         'waktu_mulai' => 'datetime',
         'waktu_selesai' => 'datetime',
         'is_active' => 'boolean',
+        'kelas' => 'array',
     ];
 
     // Relationships

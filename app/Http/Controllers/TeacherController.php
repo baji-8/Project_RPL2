@@ -86,7 +86,8 @@ class TeacherController extends Controller
     {
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
-            'kelas' => 'required|string|max:50',
+            'kelas' => 'required|array|min:1',
+            'kelas.*' => 'string',
             'deskripsi' => 'required|string',
             'konten' => 'required|string',
             'urutan' => 'required|integer',
@@ -110,13 +111,14 @@ class TeacherController extends Controller
         $materi = Materi::findOrFail($id);
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
-            'kelas' => 'required|string|max:50',
+            'kelas' => 'required|array|min:1',
+            'kelas.*' => 'string',
             'deskripsi' => 'required|string',
             'konten' => 'required|string',
             'urutan' => 'required|integer',
             'is_active' => 'boolean'
         ]);
-        
+
         $validated['is_active'] = $request->has('is_active');
         
         $materi->update($validated);
@@ -150,7 +152,8 @@ class TeacherController extends Controller
     {
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
-            'kelas' => 'required|string|max:50',
+            'kelas' => 'required|array|min:1',
+            'kelas.*' => 'string',
             'deskripsi' => 'required|string',
             'durasi' => 'required|integer|min:1',
             'passing_score' => 'required|integer|min:0|max:100'
@@ -173,7 +176,8 @@ class TeacherController extends Controller
         $quiz = Quiz::findOrFail($id);
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
-            'kelas' => 'required|string|max:50',
+            'kelas' => 'required|array|min:1',
+            'kelas.*' => 'string',
             'deskripsi' => 'required|string',
             'durasi' => 'required|integer|min:1',
             'passing_score' => 'required|integer|min:0|max:100'

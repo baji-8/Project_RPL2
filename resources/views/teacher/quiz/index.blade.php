@@ -78,7 +78,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
-                                        {{ $quiz->kelas ?? 'Belum ditentukan' }}
+                                        {{ is_array($quiz->kelas) ? implode(', ', $quiz->kelas) : $quiz->kelas }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">

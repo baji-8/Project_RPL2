@@ -16,8 +16,11 @@ class QuizController extends Controller
         $user = Auth::user();
 
         $quizzes = Quiz::where('is_active', true)
-            ->where('kelas', $user->kelas)
-            ->orderBy('created_at', 'desc')
+            ->where(function ($query) use ($user) {
+                $query->where('kelas', $user->kelas)
+                    ->orWhere('kelas', 'LIKE', '%"' . $user->kelas . '"%')
+                    ->orWhereNull('kelas');
+            })
             ->get();
 
         $userAttempts = QuizAttempt::where('user_id', $user->id)
@@ -33,8 +36,12 @@ class QuizController extends Controller
             $user = Auth::user();
 
             $quiz = Quiz::where('id', $id)
-                ->where('kelas', $user->kelas)
                 ->where('is_active', true)
+                ->where(function ($query) use ($user) {
+                    $query->where('kelas', $user->kelas)
+                        ->orWhere('kelas', 'LIKE', '%"' . $user->kelas . '"%')
+                        ->orWhereNull('kelas');
+                })
                 ->firstOrFail();
             
             if (!$quiz->isActive()) {
@@ -70,9 +77,13 @@ class QuizController extends Controller
         $user = Auth::user();
 
         $quiz = Quiz::where('id', $id)
-            ->where('kelas', $user->kelas)
             ->where('is_active', true)
-            ->firstOrFail();       
+            ->where(function ($query) use ($user) {
+                $query->where('kelas', $user->kelas)
+                    ->orWhere('kelas', 'LIKE', '%"' . $user->kelas . '"%')
+                    ->orWhereNull('kelas');
+            })
+            ->firstOrFail();      
 
         if (!$quiz->isActive()) {
             return redirect()->route('quiz.index')
