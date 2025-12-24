@@ -15,12 +15,10 @@ class DailyChecklist extends Model
         'user_id',
         'key',
         'status',
-        'date',
         'completed_at',
     ];
 
     protected $casts = [
-        'date' => 'date',
         'completed_at' => 'datetime',
     ];
 }

@@ -392,31 +392,11 @@
             const dashboardContent = document.getElementById('dashboard-content');
             const pendingItems = parseInt('{{ count($pending) }}');
 
-            // Check if reminder should be shown (24-hour check)
-            function shouldShowReminder() {
-                const lastShown = localStorage.getItem('reminderLastShown');
-                const now = Date.now();
-
-                if (!lastShown) {
-                    return true;
-                }
-
-                const timeDiff = now - parseInt(lastShown);
-                const hoursPassed = timeDiff / (1000 * 60 * 60);
-
-                return hoursPassed >= 24;
-            }
-
             // Show reminder on page load BEFORE dashboard loads
-            if (pendingItems > 0 && shouldShowReminder()) {
-                // Immediately show the overlay with fade-in
+            if (pendingItems > 0) {
                 overlay.classList.add('active');
                 document.body.classList.add('reminder-showing');
-
-                // Record the time reminder was shown
-                localStorage.setItem('reminderLastShown', Date.now().toString());
             } else {
-                // If no pending items, skip reminder and show dashboard immediately
                 overlay.style.display = 'none';
                 document.body.classList.remove('reminder-showing');
             }

@@ -67,14 +67,13 @@ class DashboardController extends Controller
             ];
 
             // Determine pending checklist items for this user within the last 24 hours
-            $cutoff = now()->subHours(24);
             $pending = [];
             foreach ($checklistItems as $key => $label) {
                 $exists = DailyChecklist::where('user_id', $user->id)
                     ->where('key', $key)
                     ->where('status', 'selesai')
                     ->whereNotNull('completed_at')
-                    ->where('completed_at', '>=', $cutoff)
+                    ->whereDate('completed_at', today())
                     ->exists();
 
                 if (! $exists) {
