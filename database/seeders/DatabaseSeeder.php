@@ -75,48 +75,66 @@ class DatabaseSeeder extends Seeder
 
         // Create test materials
         Materi::create([
-            'judul' => 'Pembelajaran Bilangan Bulat',
+            'judul' => 'Materi Khusus 6A: Operasi Bilangan Bulat',
             'deskripsi' => 'Materi tentang operasi bilangan bulat positif dan negatif',
             'konten' => 'Bilangan bulat adalah himpunan bilangan yang terdiri dari bilangan negatif, nol, dan bilangan positif. Bilangan bulat dapat digunakan untuk menggambarkan berbagai situasi dalam kehidupan sehari-hari.',
             'urutan' => 1,
-            'kelas' => '6A',
+            'kelas' => ['6A'],
             'is_active' => true,
         ]);
 
         Materi::create([
-            'judul' => 'Operasi Hitung Pecahan',
+            'judul' => 'Materi Khusus 2A: Operasi Pecahan',
             'deskripsi' => 'Memahami operasi penjumlahan, pengurangan, perkalian, dan pembagian pecahan',
             'konten' => 'Pecahan adalah bagian dari keseluruhan. Pecahan ditulis dalam bentuk a/b dimana a adalah pembilang dan b adalah penyebut. Dalam materi ini kita akan mempelajari operasi dasar pada pecahan.',
             'urutan' => 2,
-            'kelas' => '2A',
+            'kelas' => ['2A'],
             'is_active' => true,
         ]);
 
         Materi::create([
-            'judul' => 'Perbandingan dan Skala',
-            'deskripsi' => 'Mempelajari konsep perbandingan dan penerapannya dalam skala',
-            'konten' => 'Perbandingan adalah cara membandingkan dua kuantitas. Skala adalah perbandingan antara jarak pada peta dengan jarak sebenarnya di lapangan.',
+            'judul' => 'Materi Gabungan 6A dan 2A yang ke-2',
+            'deskripsi' => 'Materi ini ditujukan untuk siswa kelas 6A dan 2A',
+            'konten' => "Materi ini bisa diakses oleh dua kelas sekaligus.\n\nSilakan kunjungi:\nhttps://youtube.com",
             'urutan' => 3,
-            'kelas' => '6A',
+            'kelas' => ['6A', '2A'],
+            'is_active' => true,
+        ]);
+
+        Materi::create([
+            'judul' => 'Materi Gabungan 6A dan 2A',
+            'deskripsi' => 'Materi ini ditujukan untuk siswa kelas 6A dan 2A',
+            'konten' => "Materi ini bisa diakses oleh dua kelas sekaligus.\n\nSilakan kunjungi:\nhttps://kemdikbud.go.id",
+            'urutan' => 4,
+            'kelas' => ['6A', '2A'],
             'is_active' => true,
         ]);
 
         // Create test quizzes
         $quiz1 = Quiz::create([
-            'judul' => 'Kuis Bilangan Bulat',
-            'deskripsi' => 'Uji pemahaman tentang operasi bilangan bulat',
+            'judul' => 'Kuis Khusus A6',
+            'deskripsi' => 'Kuis ini hanya dapat dikerjakan oleh siswa jelas 6A',
             'durasi' => 30,
             'passing_score' => 70,
-            'kelas' => '6A',
+            'kelas' => ['6A'],
             'is_active' => true,
         ]);
 
         $quiz2 = Quiz::create([
-            'judul' => 'Kuis Operasi Pecahan',
-            'deskripsi' => 'Uji kemampuan operasi hitung pecahan',
+            'judul' => 'Kuis Khusus 2A',
+            'deskripsi' => 'Kuis ini hanya dapat dikerjakan oleh siswa jelas 2A',
             'durasi' => 40,
             'passing_score' => 75,
-            'kelas' => '2A',
+            'kelas' => ['2A'],
+            'is_active' => true,
+        ]);
+
+        $quizGabungan = Quiz::create([
+            'judul' => 'Kuis Gabungan 6A dan 2A',
+            'deskripsi' => 'Kuis ini dapat dikerjakan oleh siswa kelas 6A dan 2A',
+            'durasi' => 30,
+            'passing_score' => 70,
+            'kelas' => ['6A', '2A'],
             'is_active' => true,
         ]);
 
