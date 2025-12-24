@@ -79,6 +79,7 @@ class DatabaseSeeder extends Seeder
             'deskripsi' => 'Materi tentang operasi bilangan bulat positif dan negatif',
             'konten' => 'Bilangan bulat adalah himpunan bilangan yang terdiri dari bilangan negatif, nol, dan bilangan positif. Bilangan bulat dapat digunakan untuk menggambarkan berbagai situasi dalam kehidupan sehari-hari.',
             'urutan' => 1,
+            'kelas' => '6A',
             'is_active' => true,
         ]);
 
@@ -87,6 +88,7 @@ class DatabaseSeeder extends Seeder
             'deskripsi' => 'Memahami operasi penjumlahan, pengurangan, perkalian, dan pembagian pecahan',
             'konten' => 'Pecahan adalah bagian dari keseluruhan. Pecahan ditulis dalam bentuk a/b dimana a adalah pembilang dan b adalah penyebut. Dalam materi ini kita akan mempelajari operasi dasar pada pecahan.',
             'urutan' => 2,
+            'kelas' => '2A',
             'is_active' => true,
         ]);
 
@@ -95,6 +97,7 @@ class DatabaseSeeder extends Seeder
             'deskripsi' => 'Mempelajari konsep perbandingan dan penerapannya dalam skala',
             'konten' => 'Perbandingan adalah cara membandingkan dua kuantitas. Skala adalah perbandingan antara jarak pada peta dengan jarak sebenarnya di lapangan.',
             'urutan' => 3,
+            'kelas' => '6A',
             'is_active' => true,
         ]);
 
@@ -104,6 +107,7 @@ class DatabaseSeeder extends Seeder
             'deskripsi' => 'Uji pemahaman tentang operasi bilangan bulat',
             'durasi' => 30,
             'passing_score' => 70,
+            'kelas' => '6A',
             'is_active' => true,
         ]);
 
@@ -112,6 +116,7 @@ class DatabaseSeeder extends Seeder
             'deskripsi' => 'Uji kemampuan operasi hitung pecahan',
             'durasi' => 40,
             'passing_score' => 75,
+            'kelas' => '2A',
             'is_active' => true,
         ]);
 
@@ -194,14 +199,26 @@ class DatabaseSeeder extends Seeder
 
         // Akun Siswa (login via NISN)
         $siswaTest = User::updateOrCreate(
-            ['nisn' => '1234567890'],
+            ['nisn' => '1236'],
             [
-                'name' => 'Siswa Test',
-                'email' => 'siswa@test.com',
+                'name' => 'Siswa 6A',
+                'email' => 'siswa6a@test.com',
                 'password' => bcrypt('password'),
                 'role' => 'student',
                 'kelas' => '6A',
                 'tanggal_lahir' => '2014-01-01',
+            ]
+        );
+
+        $siswaTest = User::updateOrCreate(
+            ['nisn' => '1232'],
+            [
+                'name' => 'Siswa 2A',
+                'email' => 'siswa2a@test.com',
+                'password' => bcrypt('password'),
+                'role' => 'student',
+                'kelas' => '2A',
+                'tanggal_lahir' => '2018-01-01',
             ]
         );
     }

@@ -12,24 +12,19 @@ class MateriController extends Controller
 {
     public function index()
     {
-        try {
-            $user = Auth::user();
-            $materi = Materi::where('is_active', true)
-                ->orderBy('urutan')
-                ->get();
-            
-            // Get completed materials for current user
-            $completedMateri = AktivitasPembelajaran::where('user_id', $user->id)
-                ->where('jenis', 'materi')
-                ->where('status', 'selesai')
-                ->pluck('materi_id')
-                ->toArray();
-        } catch (\Exception $e) {
-            $user = Auth::user();
-            $materi = collect([]);
-            $completedMateri = [];
-        }
-        
+        $user = Auth::user();
+
+        $materi = Materi::where('is_active', true)
+            ->where('kelas', $user->kelas)
+            ->orderBy('urutan')
+            ->get();
+
+        $completedMateri = AktivitasPembelajaran::where('user_id', $user->id)
+            ->where('jenis', 'materi')
+            ->where('status', 'selesai')
+            ->pluck('materi_id')
+            ->toArray();
+
         return view('student.materi.index', [
             'materi' => $materi,
             'completedMateri' => $completedMateri
@@ -40,15 +35,22 @@ class MateriController extends Controller
     {
         try {
             $user = Auth::user();
-            $materi = Materi::findOrFail($id);
+
+            $materi = Materi::where('id', $id)
+                ->where('kelas', $user->kelas)
+                ->where('is_active', true)
+                ->firstOrFail();
             
             if (!$materi->is_active) {
                 abort(404);
             }
 
             // Get all materials ordered by urutan
-            $allMateri = Materi::where('is_active', true)->orderBy('urutan')->get();
-            
+            $allMateri = Materi::where('is_active', true)
+                ->where('kelas', $user->kelas)
+                ->orderBy('urutan')
+                ->get();    
+
             // Get completed materials
             $completedMateri = AktivitasPembelajaran::where('user_id', $user->id)
                 ->where('jenis', 'materi')

@@ -23,6 +23,7 @@ class DashboardController extends Controller
         try {
             // Get materi pembelajaran
             $materiList = Materi::where('is_active', true)
+                ->where('kelas', $user->kelas)
                 ->orderBy('urutan')
                 ->orderBy('created_at', 'desc')
                 ->limit(4)
@@ -30,6 +31,7 @@ class DashboardController extends Controller
             
             // Get daily quizzes with attempt status
             $dailyQuizzes = Quiz::where('is_active', true)
+                ->where('kelas', $user->kelas)
                 ->where(function($query) {
                     $query->whereNull('waktu_mulai')
                         ->orWhere('waktu_mulai', '<=', now());

@@ -13,18 +13,16 @@ class QuizController extends Controller
 {
     public function index()
     {
-        try {
-            $quizzes = Quiz::where('is_active', true)
-                ->orderBy('created_at', 'desc')
-                ->get();
-            
-            $userAttempts = QuizAttempt::where('user_id', Auth::id())
-                ->pluck('quiz_id', 'quiz_id')
-                ->toArray();
-        } catch (\Exception $e) {
-            $quizzes = collect([]);
-            $userAttempts = [];
-        }
+        $user = Auth::user();
+
+        $quizzes = Quiz::where('is_active', true)
+            ->where('kelas', $user->kelas)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $userAttempts = QuizAttempt::where('user_id', $user->id)
+            ->pluck('quiz_id', 'quiz_id')
+            ->toArray();
 
         return view('quiz.index', compact('quizzes', 'userAttempts'));
     }
@@ -32,7 +30,12 @@ class QuizController extends Controller
     public function show($id)
     {
         try {
-            $quiz = Quiz::findOrFail($id);
+            $user = Auth::user();
+
+            $quiz = Quiz::where('id', $id)
+                ->where('kelas', $user->kelas)
+                ->where('is_active', true)
+                ->firstOrFail();
             
             if (!$quiz->isActive()) {
                 return redirect()->route('quiz.index')
@@ -64,8 +67,13 @@ class QuizController extends Controller
 
     public function start($id)
     {
-        $quiz = Quiz::findOrFail($id);
-        
+        $user = Auth::user();
+
+        $quiz = Quiz::where('id', $id)
+            ->where('kelas', $user->kelas)
+            ->where('is_active', true)
+            ->firstOrFail();       
+
         if (!$quiz->isActive()) {
             return redirect()->route('quiz.index')
                 ->with('error', 'Quiz tidak tersedia saat ini.');
