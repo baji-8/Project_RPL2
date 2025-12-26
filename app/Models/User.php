@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\QuizAttempt;
+use App\Models\Badge;
 
 class User extends Authenticatable
 {
@@ -33,6 +34,8 @@ class User extends Authenticatable
         'tentang_aku',
         'email_orang_tua',
         'nomor_telepon_orang_tua',
+        'points',   
+        'badge_id',
     ];
 
     /**
@@ -68,5 +71,10 @@ class User extends Authenticatable
     public function quizAttempts()
     {
         return $this->hasMany(QuizAttempt::class, 'user_id');
+    }
+
+    public function badge()
+    {
+        return $this->belongsTo(Badge::class);
     }
 }
