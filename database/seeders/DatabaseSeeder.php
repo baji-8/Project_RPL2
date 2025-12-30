@@ -19,7 +19,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        $this->call(AiKeywordSeeder::class);
+        $this->call([
+            AdminUserSeeder::class,
+            TestUsersSeeder::class,
+            BadgeSeeder::class,
+            AiKeywordSeeder::class,
+        ]);
         // User::factory(10)->create();
 
         // Create test student for parent login
