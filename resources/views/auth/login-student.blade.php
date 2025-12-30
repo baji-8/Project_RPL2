@@ -12,8 +12,7 @@
         <div>
             <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Masuk Siswa</h2>
             <p class="mt-2 text-center text-sm text-gray-600">
-                Belum punya akun?
-                <a href="{{ route('register.student') }}" class="font-medium text-blue-600 hover:text-blue-500">Daftar di sini</a>
+                Masukkan NISN dan password Anda untuk masuk
             </p>
         </div>
         <form class="mt-8 space-y-6" action="{{ route('login.student.post') }}" method="POST">

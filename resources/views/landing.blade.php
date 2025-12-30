@@ -6,6 +6,9 @@
     <title>SDN Susukan 08 Pagi - Portal Sekolah</title>
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @php
+        use Illuminate\Support\Facades\Storage;
+    @endphp
     <style>
         .green-header {
             background-color: #22c55e; /* green-500 */
@@ -75,6 +78,12 @@
     </header>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        @if(session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6 text-center">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <!-- Welcome Section -->
         <div class="welcome-card rounded-2xl p-6 md:p-8 mb-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
@@ -86,15 +95,19 @@
                         Sekolah dasar yang ceria dan suportif untuk membentuk generasi penerus bangsa yang cerdas, kreatif, dan berakhlak mulia. Kami berkomitmen menyediakan lingkungan belajar terbaik.
                     </p>
                 </div>
-                <div class="hidden md:block">
+                <div>
                     <div class="bg-gradient-to-br from-green-200 to-green-300 rounded-xl overflow-hidden h-64 flex items-center justify-center relative">
-                        <!-- Placeholder untuk foto anak-anak - bisa diganti dengan gambar asli -->
-                        <div class="text-center">
-                            <svg class="w-32 h-32 mx-auto text-green-600 opacity-60 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <p class="text-green-700 font-semibold text-sm">Foto Siswa</p>
-                        </div>
+                        @if($landingImageUrl)
+                            <img src="{{ $landingImageUrl }}" alt="Foto Sekolah" class="w-full h-full object-cover">
+                        @else
+                            <!-- Placeholder untuk foto sekolah -->
+                            <div class="text-center">
+                                <svg class="w-32 h-32 mx-auto text-green-600 opacity-60 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <p class="text-green-700 font-semibold text-sm">Foto Sekolah</p>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -115,14 +128,9 @@
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Masuk Siswa</h3>
                     <p class="text-gray-600 text-sm text-center mb-4 flex-grow">Akses dashboard belajar Anda</p>
-                    <div class="space-y-2">
-                        <a href="{{ route('login.student') }}" class="block w-full text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition">
-                            Masuk dengan NISN
-                        </a>
-                        <a href="{{ route('register.student') }}" class="block w-full text-center bg-green-100 hover:bg-green-200 text-green-700 font-semibold py-3 px-4 rounded-lg transition">
-                            Daftar Akun Baru
-                        </a>
-                    </div>
+                    <a href="{{ route('login.student') }}" class="block w-full text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition">
+                        Masuk dengan NISN
+                    </a>
                 </div>
 
                 <!-- Teacher Login Card -->
@@ -136,14 +144,9 @@
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Masuk Guru</h3>
                     <p class="text-gray-600 text-sm text-center mb-4 flex-grow">Kelola materi dan kuis</p>
-                    <div class="space-y-2">
-                        <a href="{{ route('login.teacher') }}" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition">
-                            Masuk dengan Username
-                        </a>
-                        <a href="{{ route('register.teacher') }}" class="block w-full text-center bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-3 px-4 rounded-lg transition">
-                            Daftar Akun Baru
-                        </a>
-                    </div>
+                    <a href="{{ route('login.teacher') }}" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition">
+                        Masuk dengan Username
+                    </a>
                 </div>
 
                 <!-- Parent Login Card -->

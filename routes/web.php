@@ -9,10 +9,13 @@ use App\Http\Controllers\AktivitasController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AIController;
+use Illuminate\Support\Facades\Storage;
 
 // Landing Page
 Route::get('/', function () {
-    return view('landing');
+    $landingImages = \Illuminate\Support\Facades\Storage::disk('public')->files('landing');
+    $landingImageUrl = count($landingImages) > 0 ? \Illuminate\Support\Facades\Storage::disk('public')->url($landingImages[0]) : null;
+    return view('landing', compact('landingImages', 'landingImageUrl'));
 })->name('landing');
 
 // Authentication Routes
@@ -24,17 +27,6 @@ Route::middleware('guest')->group(function () {
     // Teacher login
     Route::get('/login/teacher', [AuthController::class, 'showTeacherLogin'])->name('login.teacher');
     Route::post('/login/teacher', [AuthController::class, 'teacherLogin'])->name('login.teacher.post');
-
-    // Student registration
-    Route::get('/register/student', [AuthController::class, 'showStudentRegister'])->name('register.student');
-    Route::post('/register/student', [AuthController::class, 'studentRegister'])->name('register.student.post');
-
-    // Teacher registration
-    Route::get('/register/teacher', [AuthController::class, 'showTeacherRegister'])->name('register.teacher');
-    Route::post('/register/teacher', [AuthController::class, 'teacherRegister'])->name('register.teacher.post');
-
-    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
 });
 
 // Parent view-only login (accessible to anyone)
@@ -127,3 +119,29 @@ Route::middleware(['role:parent'])->group(function () {
 
 // Parent report - accessible to anyone (parent login or direct NISN entry)
 Route::get('/parent/report/student', [\App\Http\Controllers\ParentController::class, 'reportStudent'])->name('report.student');
+
+// Admin routes (requires admin role)
+Route::middleware(['ensure_auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
+    
+    // Student management
+    Route::get('/students', [\App\Http\Controllers\AdminController::class, 'students'])->name('students');
+    Route::get('/students/create', [\App\Http\Controllers\AdminController::class, 'createStudent'])->name('students.create');
+    Route::post('/students', [\App\Http\Controllers\AdminController::class, 'storeStudent'])->name('students.store');
+    Route::get('/students/{student}/edit', [\App\Http\Controllers\AdminController::class, 'editStudent'])->name('students.edit');
+    Route::put('/students/{student}', [\App\Http\Controllers\AdminController::class, 'updateStudent'])->name('students.update');
+    Route::delete('/students/{student}', [\App\Http\Controllers\AdminController::class, 'destroyStudent'])->name('students.destroy');
+    
+    // Teacher management
+    Route::get('/teachers', [\App\Http\Controllers\AdminController::class, 'teachers'])->name('teachers');
+    Route::get('/teachers/create', [\App\Http\Controllers\AdminController::class, 'createTeacher'])->name('teachers.create');
+    Route::post('/teachers', [\App\Http\Controllers\AdminController::class, 'storeTeacher'])->name('teachers.store');
+    Route::get('/teachers/{teacher}/edit', [\App\Http\Controllers\AdminController::class, 'editTeacher'])->name('teachers.edit');
+    Route::put('/teachers/{teacher}', [\App\Http\Controllers\AdminController::class, 'updateTeacher'])->name('teachers.update');
+    Route::delete('/teachers/{teacher}', [\App\Http\Controllers\AdminController::class, 'destroyTeacher'])->name('teachers.destroy');
+    
+    // Landing images
+    Route::get('/landing-images', [\App\Http\Controllers\AdminController::class, 'landingImages'])->name('landing-images');
+    Route::post('/landing-images', [\App\Http\Controllers\AdminController::class, 'storeLandingImage'])->name('landing-images.store');
+    Route::delete('/landing-images/{filename}', [\App\Http\Controllers\AdminController::class, 'destroyLandingImage'])->name('landing-images.destroy');
+});

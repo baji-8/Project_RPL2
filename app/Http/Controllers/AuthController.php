@@ -64,8 +64,11 @@ class AuthController extends Controller
     public function showTeacherLogin()
     {
         if (Auth::check()) {
-            if (Auth::user()->role === 'teacher') {
+            $user = Auth::user();
+            if ($user->role === 'teacher') {
                 return redirect()->route('teacher.dashboard');
+            } elseif ($user->role === 'admin') {
+                return redirect()->route('admin.dashboard');
             }
             // Other users should logout first
             return redirect()->route('logout');
@@ -82,13 +85,19 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->username)
             ->orWhere('username', $request->username)
-            ->where('role', 'teacher')
+            ->whereIn('role', ['teacher', 'admin'])
             ->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user, $request->boolean('remember'));
             $request->session()->regenerate();
-            return redirect()->intended(route('teacher.dashboard'));
+            
+            // Redirect based on role
+            if ($user->role === 'admin') {
+                return redirect()->intended(route('admin.dashboard'));
+            } else {
+                return redirect()->intended(route('teacher.dashboard'));
+            }
         }
 
         throw ValidationException::withMessages([
@@ -172,7 +181,7 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         
         // Always redirect to landing page after logout
-        return redirect()->route('landing')->with('success', 'Anda telah logout. Sampai jumpa lagi!');
+        return redirect('/')->with('success', 'Anda telah logout. Sampai jumpa lagi!');
     }
 
     // -------- Student Registration --------
