@@ -90,14 +90,26 @@ class TeacherController extends Controller
             'kelas.*' => 'string',
             'deskripsi' => 'required|string',
             'konten' => 'required|string',
+            'keywords' => 'nullable|string',
             'urutan' => 'required|integer',
             'is_active' => 'boolean'
         ]);
-        
+
+        if (!empty($validated['keywords'])) {
+            $validated['keywords'] = collect(explode(',', $validated['keywords']))
+                ->map(fn ($k) => strtolower(trim($k)))
+                ->filter()
+                ->unique()
+                ->implode(',');
+        }
+
         $validated['is_active'] = $request->has('is_active');
-        
+
         Materi::create($validated);
-        return redirect()->route('teacher.materi.index')->with('success', 'Materi berhasil ditambahkan');
+
+        return redirect()
+            ->route('teacher.materi.index')
+            ->with('success', 'Materi berhasil ditambahkan');
     }
     
     public function materiEdit($id)
@@ -109,20 +121,33 @@ class TeacherController extends Controller
     public function materiUpdate(Request $request, $id)
     {
         $materi = Materi::findOrFail($id);
+
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'kelas' => 'required|array|min:1',
             'kelas.*' => 'string',
             'deskripsi' => 'required|string',
             'konten' => 'required|string',
+            'keywords' => 'nullable|string',
             'urutan' => 'required|integer',
             'is_active' => 'boolean'
         ]);
 
+        if (!empty($validated['keywords'])) {
+            $validated['keywords'] = collect(explode(',', $validated['keywords']))
+                ->map(fn ($k) => strtolower(trim($k)))
+                ->filter()
+                ->unique()
+                ->implode(',');
+        }
+
         $validated['is_active'] = $request->has('is_active');
-        
+
         $materi->update($validated);
-        return redirect()->route('teacher.materi.index')->with('success', 'Materi berhasil diperbarui');
+
+        return redirect()
+            ->route('teacher.materi.index')
+            ->with('success', 'Materi berhasil diperbarui');
     }
     
     public function materiDestroy($id)

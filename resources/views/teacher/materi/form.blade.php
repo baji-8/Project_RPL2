@@ -132,6 +132,28 @@
                     @enderror
                 </div>
 
+                <!-- Keyword Materi (untuk Chatbot) -->
+                <div class="mb-6">
+                    <label for="keywords" class="block text-sm font-semibold text-gray-900 mb-2">
+                        Keyword Materi
+                        <span class="text-gray-500 text-xs">(untuk chatbot)</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="keywords"
+                        name="keywords"
+                        value="{{ old('keywords', $materi->keywords ?? '') }}"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        placeholder="contoh: fotosintesis, tumbuhan, daun"
+                    >
+
+                    <p class="text-gray-600 text-xs mt-2">
+                        Masukkan 3–5 kata penting, dipisahkan dengan koma.  
+                        Digunakan untuk menjawab pertanyaan siswa di chatbot.
+                    </p>
+                </div>
+
                 <!-- Urutan -->
                 <div class="mb-6">
                     <label for="urutan" class="block text-sm font-semibold text-gray-900 mb-2">Urutan Materi <span class="text-red-600">*</span></label>

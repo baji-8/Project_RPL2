@@ -114,6 +114,26 @@ class DatabaseSeeder extends Seeder
             'kelas' => ['6A', '2A'],
             'is_active' => true,
         ]);
+        
+        Materi::create([
+            'judul' => 'Fotosintesis pada Tumbuhan',
+            'deskripsi' => 'Proses tumbuhan membuat makanan sendiri',
+            'konten' => 'Fotosintesis adalah proses tumbuhan membuat makanan sendiri dengan bantuan cahaya matahari, air, dan karbon dioksida. Proses ini terjadi di daun yang mengandung klorofil.',
+            'keywords' => 'fotosintesis,tumbuhan,daun,cahaya',
+            'urutan' => 5,
+            'kelas' => ['6A', '2A'],
+            'is_active' => true,
+        ]);
+
+        Materi::create([
+            'judul' => 'Peran Matahari dalam Fotosintesis',
+            'deskripsi' => 'Matahari sebagai sumber energi fotosintesis',
+            'konten' => 'Matahari berperan sebagai sumber energi utama dalam proses fotosintesis. Tanpa cahaya matahari, tumbuhan tidak dapat menghasilkan makanan.',
+            'keywords' => 'fotosintesis,matahari,energi',
+            'urutan' => 6,
+            'kelas' => ['6A', '2A'],
+            'is_active' => true,
+        ]);
 
         // Create test quizzes
         $quiz1 = Quiz::create([

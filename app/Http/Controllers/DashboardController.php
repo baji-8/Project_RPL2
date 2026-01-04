@@ -29,7 +29,6 @@ class DashboardController extends Controller
                         ->orWhereNull('kelas');
                 })
                 ->orderBy('urutan')
-                ->limit(4)
                 ->get();
             
             // Get daily quizzes with attempt status
@@ -48,7 +47,6 @@ class DashboardController extends Controller
                         ->orWhere('waktu_selesai', '>=', now());
                 })
                 ->orderBy('created_at', 'desc')
-                ->limit(3)
                 ->get()
                 ->map(function($quiz) use ($user) {
                     $attempt = QuizAttempt::where('user_id', $user->id)
