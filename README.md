@@ -10,5 +10,5 @@ step run website Laravel
 1. run xampp apache dan MySQL
 2. buka terminal di file projek pppl2
 3. npm run dev (buat css)
-4. php artisan migrate (migrate database php)
-5. php artisan serve (preview localhost website)
+4. php artisan serve (preview localhost website)
+5. php artisan migrate:fresh --seed (migrate database php)
