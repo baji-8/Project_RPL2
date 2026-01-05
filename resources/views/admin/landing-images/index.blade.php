@@ -25,11 +25,6 @@
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        @if(session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
-                {{ session('success') }}
-            </div>
-        @endif
 
         <!-- Upload Form -->
         <div class="bg-white shadow rounded-lg mb-8">
@@ -56,13 +51,20 @@
                 @if(count($images) > 0)
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         @foreach($images as $image)
-                            <div class="relative group">
-                                <img src="{{ $imageUrls[$image] ?? '' }}" alt="Landing Image" class="w-full h-32 object-cover rounded-lg">
-                                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 rounded-lg flex items-center justify-center">
-                                    <form method="POST" action="{{ route('admin.landing-images.destroy', basename($image)) }}" class="opacity-0 group-hover:opacity-100 transition-opacity duration-300" onsubmit="return confirm('Apakah Anda yakin ingin menghapus gambar ini?')">
+                            <div class="relative group overflow-hidden rounded-lg">
+                                <img
+                                    src="{{ asset('storage/' . $image) }}"
+                                    alt="Landing Image"
+                                    class="w-full h-32 object-cover rounded-lg"
+                                />
+                                <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                    <form method="POST"
+                                        action="{{ route('admin.landing-images.destroy', basename($image)) }}"
+                                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus gambar ini?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm">
+                                        <button type="submit"
+                                                class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm">
                                             Hapus
                                         </button>
                                     </form>

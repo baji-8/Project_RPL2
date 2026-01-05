@@ -22,25 +22,18 @@ class ProfileController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string|max:500',
             'kelas' => 'nullable|string|max:50',
             'nisn' => 'nullable|string|max:20|unique:users,nisn,' . $user->id,
             'tanggal_lahir' => 'nullable|date',
             'tentang_aku' => 'nullable|string|max:1000',
             'email_orang_tua' => 'nullable|string|email|max:255',
             'nomor_telepon_orang_tua' => 'nullable|string|max:20',
-            'password' => 'nullable|string|min:8|confirmed',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Prepare data for update
         $data = [
             'name' => $validated['name'],
-            'email' => $validated['email'],
-            'phone' => $validated['phone'] ?? null,
-            'address' => $validated['address'] ?? null,
             'kelas' => $validated['kelas'] ?? null,
             'nisn' => $validated['nisn'] ?? null,
             'tanggal_lahir' => $validated['tanggal_lahir'] ?? null,
@@ -66,11 +59,16 @@ class ProfileController extends Controller
                 
                 // Store new avatar
                 $file = $request->file('avatar');
-                $filename = 'avatars/' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                $path = Storage::disk('public')->put($filename, file_get_contents($file->getRealPath()));
-                
+                $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+                $path = Storage::disk('public')->putFileAs(
+                    'avatars',
+                    $file,
+                    $filename
+                );
+
                 if ($path) {
-                    $data['avatar'] = $filename;
+                    $data['avatar'] = $path; // avatars/namafile.jpg
                 }
             } catch (\Exception $e) {
                 Log::error('Avatar upload error: ' . $e->getMessage(), [

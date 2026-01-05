@@ -13,10 +13,21 @@ use Illuminate\Support\Facades\Storage;
 
 // Landing Page
 Route::get('/', function () {
-    $landingImages = \Illuminate\Support\Facades\Storage::disk('public')->files('landing');
-    $landingImageUrl = count($landingImages) > 0 ? \Illuminate\Support\Facades\Storage::disk('public')->url($landingImages[0]) : null;
-    return view('landing', compact('landingImages', 'landingImageUrl'));
+    $landingImageUrl = null;
+
+    if (Storage::disk('public')->exists('landing')) {
+        $images = collect(Storage::disk('public')->files('landing'))
+            ->filter(fn ($file) => in_array(pathinfo($file, PATHINFO_EXTENSION), ['jpg','jpeg','png','gif']))
+            ->values();
+
+        if ($images->isNotEmpty()) {
+            $landingImageUrl = asset('storage/' . $images->first());
+        }
+    }
+
+    return view('landing', compact('landingImageUrl'));
 })->name('landing');
+
 
 // Authentication Routes
 Route::middleware('guest')->group(function () {

@@ -12,3 +12,4 @@ step run website Laravel
 3. npm run dev (buat css)
 4. php artisan serve (preview localhost website)
 5. php artisan migrate:fresh --seed (migrate database php)
+6. php artisan storage:link

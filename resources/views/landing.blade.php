@@ -98,7 +98,10 @@
                 <div>
                     <div class="bg-gradient-to-br from-green-200 to-green-300 rounded-xl overflow-hidden h-64 flex items-center justify-center relative">
                         @if($landingImageUrl)
-                            <img src="{{ $landingImageUrl }}" alt="Foto Sekolah" class="w-full h-full object-cover">
+                            <div class="h-[60vh] md:h-[70vh] lg:h-[80vh] overflow-hidden">
+                                <img src="{{ $landingImageUrl }}"
+                                    class="w-full h-full object-contain">
+                            </div>
                         @else
                             <!-- Placeholder untuk foto sekolah -->
                             <div class="text-center">

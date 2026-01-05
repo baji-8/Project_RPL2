@@ -167,10 +167,6 @@ class AdminController extends Controller
     public function landingImages()
     {
         $images = Storage::disk('public')->files('landing');
-        $imageUrls = [];
-        foreach ($images as $image) {
-            $imageUrls[$image] = Storage::disk('public')->url($image);
-        }
         return view('admin.landing-images.index', compact('images', 'imageUrls'));
     }
 
@@ -193,6 +189,9 @@ class AdminController extends Controller
     public function destroyLandingImage($filename)
     {
         Storage::disk('public')->delete('landing/' . $filename);
-        return redirect()->route('admin.landing-images')->with('success', 'Gambar berhasil dihapus.');
+
+        return redirect()
+            ->route('admin.landing-images')
+            ->with('success', 'Gambar berhasil dihapus.');
     }
 }

@@ -142,8 +142,15 @@
                 </div>
             </div>
             <div class="hidden lg:block flex-shrink-0">
-                <div class="w-40 h-40 bg-white rounded-2xl shadow-md flex items-center justify-center">
-                    <svg class="w-32 h-32 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                <div class="w-40 h-40 bg-white rounded-2xl shadow-md flex items-center justify-center overflow-hidden">
+                    @if(auth()->user()->avatar)
+                        <img src="{{ asset('storage/' . auth()->user()->avatar) }}"
+                            class="w-full h-full object-cover rounded-2xl">
+                    @else
+                        <div class="w-full h-full bg-green-500 flex items-center justify-center text-white text-6xl font-bold">
+                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
