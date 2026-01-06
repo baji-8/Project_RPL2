@@ -167,7 +167,7 @@ class AdminController extends Controller
     public function landingImages()
     {
         $images = Storage::disk('public')->files('landing');
-        return view('admin.landing-images.index', compact('images', 'imageUrls'));
+        return view('admin.landing-images.index', compact('images'));
     }
 
     public function storeLandingImage(Request $request)
