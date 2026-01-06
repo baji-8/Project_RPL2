@@ -137,7 +137,7 @@ class DatabaseSeeder extends Seeder
 
         // Create test quizzes
         $quiz1 = Quiz::create([
-            'judul' => 'Kuis Khusus A6',
+            'judul' => 'Kuis Khusus 6A',
             'deskripsi' => 'Kuis ini hanya dapat dikerjakan oleh siswa jelas 6A',
             'durasi' => 30,
             'passing_score' => 70,
