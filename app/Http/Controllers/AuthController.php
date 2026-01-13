@@ -50,6 +50,25 @@ class AuthController extends Controller
             ->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
+
+            if ($user->status !== 'approved') {
+                throw ValidationException::withMessages([
+                    'nisn' => 'Akun belum disetujui admin.',
+                ]);
+            }
+
+            if (! $user) {
+                throw ValidationException::withMessages([
+                    'nisn' => __('NISN atau password tidak sesuai.'),
+                ]);
+            }
+
+            if ($user->status !== 'approved') {
+                throw ValidationException::withMessages([
+                    'nisn' => __('Akun Anda belum disetujui oleh admin.'),
+                ]);
+            }
+            
             Auth::login($user, $request->boolean('remember'));
             $request->session()->regenerate();
             return redirect()->intended(route('dashboard'));
@@ -89,6 +108,25 @@ class AuthController extends Controller
             ->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
+
+            if ($user->status !== 'approved') {
+                throw ValidationException::withMessages([
+                    'username' => 'Akun belum disetujui admin.',
+                ]);
+            }
+
+            if (! $user) {
+                throw ValidationException::withMessages([
+                    'username' => __('Username atau password tidak sesuai.'),
+                ]);
+            }
+
+            if ($user->status !== 'approved') {
+                throw ValidationException::withMessages([
+                    'username' => __('Akun Anda belum disetujui oleh admin.'),
+                ]);
+            }
+
             Auth::login($user, $request->boolean('remember'));
             $request->session()->regenerate();
             
@@ -215,10 +253,13 @@ class AuthController extends Controller
             'email_orang_tua' => $request->email_orang_tua,
             'password' => Hash::make($request->password),
             'role' => 'student',
+            'status' => 'pending',
         ]);
 
-        Auth::login($user);
-        return redirect()->route('dashboard');
+        return redirect()->route('login.student')
+            ->with('success', 'Akun berhasil dibuat. Menunggu persetujuan admin.');
+        // Auth::login($user);
+        // return redirect()->route('dashboard');
     }
 
     // -------- Teacher Registration --------
@@ -250,9 +291,12 @@ class AuthController extends Controller
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
             'role' => 'teacher',
+            'status' => 'pending',
         ]);
 
-        Auth::login($user);
-        return redirect()->route('teacher.dashboard');
+        return redirect()->route('login.teacher')
+            ->with('success', 'Pendaftaran berhasil. Menunggu persetujuan admin.');
+        // Auth::login($user);
+        // return redirect()->route('teacher.dashboard');
     }
 }

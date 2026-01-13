@@ -25,6 +25,24 @@
         </div>
     </header>
 
+    @if($pendingCount > 0)
+        <div class="mb-6 p-4 border border-yellow-300 bg-yellow-50 rounded-lg flex items-center justify-between">
+            <div>
+                <h3 class="text-yellow-800 font-semibold">
+                    🔔 Ada {{ $pendingCount }} akun menunggu persetujuan
+                </h3>
+                <p class="text-sm text-yellow-700">
+                    Siswa atau guru baru telah mendaftar dan menunggu approval.
+                </p>
+            </div>
+
+            <a href="{{ route('admin.approvals') }}"
+            class="inline-flex items-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-md hover:bg-yellow-700 transition">
+                Lihat Persetujuan
+            </a>
+        </div>
+    @endif
+
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Stats Cards -->

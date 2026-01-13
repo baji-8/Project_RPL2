@@ -14,9 +14,17 @@ class AdminController extends Controller
     {
         $students = User::where('role', 'student')->get();
         $teachers = User::where('role', 'teacher')->get();
-        $landingImages = Storage::disk('public')->files('landing'); // Using public disk
 
-        return view('admin.dashboard', compact('students', 'teachers', 'landingImages'));
+        $pendingCount = User::whereIn('role', ['student', 'teacher'])
+            ->where('status', 'pending')
+            ->count();
+
+        $landingImages = Storage::disk('public')->files('landing');
+
+        return view(
+            'admin.dashboard',
+            compact('students', 'teachers', 'pendingCount', 'landingImages')
+        );
     }
 
     // Student CRUD
@@ -193,5 +201,29 @@ class AdminController extends Controller
         return redirect()
             ->route('admin.landing-images')
             ->with('success', 'Gambar berhasil dihapus.');
+    }
+
+    public function approvals()
+    {
+        $pendingUsers = User::whereIn('role', ['student', 'teacher'])
+            ->where('status', 'pending')
+            ->get();
+
+        return view('admin.approvals.index', compact('pendingUsers'));
+    }
+
+    public function approveUser(User $user)
+    {
+        $user->update(['status' => 'approved']);
+        return back()->with('success', 'Akun disetujui.');
+    }
+
+    public function rejectUser(User $user)
+    {
+        $user->delete();
+
+        return redirect()
+            ->route('admin.approvals')
+            ->with('success', 'Akun berhasil ditolak dan dihapus.');
     }
 }

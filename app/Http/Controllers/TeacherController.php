@@ -12,6 +12,41 @@ use Illuminate\Support\Facades\Auth;
 
 class TeacherController extends Controller
 {
+    public function index()
+    {
+        return $this->materiIndex();
+    }
+
+    // GET /teacher/materi/create
+    public function create()
+    {
+        return $this->materiCreate();
+    }
+
+    // POST /teacher/materi
+    public function store(Request $request)
+    {
+        return $this->materiStore($request);
+    }
+
+    // GET /teacher/materi/{materi}/edit
+    public function edit($materi)
+    {
+        return $this->materiEdit($materi);
+    }
+
+    // PUT /teacher/materi/{materi}
+    public function update(Request $request, $materi)
+    {
+        return $this->materiUpdate($request, $materi);
+    }
+
+    // DELETE /teacher/materi/{materi}
+    public function destroy($materi)
+    {
+        return $this->materiDestroy($materi);
+    }
+
     public function dashboard()
     {
         // Ambil semua materi

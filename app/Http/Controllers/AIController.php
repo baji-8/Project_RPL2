@@ -19,9 +19,11 @@ class AiController extends Controller
     {
         $message = strtolower(trim($request->message));
 
-        // =====================
-        // 🔥 0️⃣ CARI DI MATERI GURU (SUPPORT MULTI MATERI)
-        // =====================
+        if (!is_numeric($message)) {
+            session()->forget('materi_map');
+            session()->forget('ai_material_map');
+        }
+
         $materis = Materi::where('is_active', true)
             ->whereNotNull('keywords')
             ->get();
@@ -39,7 +41,6 @@ class AiController extends Controller
             }
         }
 
-        // 🔹 JIKA LEBIH DARI 1 MATERI → PILIHAN ANGKA
         if (count($matchedMateri) > 1) {
             $text = "Saya menemukan beberapa materi:\n";
             $map = [];
@@ -58,7 +59,6 @@ class AiController extends Controller
             ]);
         }
 
-        // 🔹 JIKA HANYA 1 MATERI → LANGSUNG JAWAB
         if (count($matchedMateri) === 1) {
             $m = $matchedMateri[0];
 
@@ -67,12 +67,8 @@ class AiController extends Controller
             ]);
         }
 
-        // =====================
-        // 1️⃣ JIKA USER PILIH ANGKA
-        // =====================
         if (is_numeric($message)) {
 
-            // 🔹 Prioritas: materi guru
             if (session()->has('materi_map')) {
                 $map = session('materi_map');
 
@@ -87,7 +83,6 @@ class AiController extends Controller
                 ]);
             }
 
-            // 🔹 Fallback: ai_keywords
             if (session()->has('ai_material_map')) {
                 $map = session('ai_material_map');
 
@@ -103,9 +98,6 @@ class AiController extends Controller
             ]);
         }
 
-        // =====================
-        // 2️⃣ DETEKSI SEMUA KEYWORD
-        // =====================
         $keywords = \App\Models\AiKeyword::all();
         $matched = [];
 
@@ -121,9 +113,6 @@ class AiController extends Controller
             ]);
         }
 
-        // =====================
-        // 3️⃣ BANGUN OUTPUT + MAP ANGKA
-        // =====================
         $text = '';
         $number = 1;
         $materialMap = [];
@@ -131,10 +120,8 @@ class AiController extends Controller
         foreach ($matched as $item) {
             $data = json_decode($item->response, true);
 
-            // Pengertian
             $text .= $data['definition'] . "\n";
 
-            // Materi bernomor
             foreach ($data['materials'] as $mat) {
                 $text .= $number . '. ' . $mat['title'] . "\n";
                 $materialMap[$number] = $mat['answer'];
@@ -144,7 +131,6 @@ class AiController extends Controller
             $text .= "\n";
         }
 
-        // Simpan mapping ke session
         session(['ai_material_map' => $materialMap]);
 
         $text .= "Silakan pilih angka untuk mempelajari lebih lanjut.";

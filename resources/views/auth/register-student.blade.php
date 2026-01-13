@@ -16,6 +16,12 @@
                 <a href="{{ route('login.student') }}" class="font-medium text-blue-600 hover:text-blue-500">Masuk di sini</a>
             </p>
         </div>
+
+        <div class="mb-4 px-4 py-3 rounded-lg bg-blue-50 text-blue-700 text-sm">
+            <strong>Catatan:</strong>
+            Akun yang didaftarkan akan aktif setelah disetujui oleh admin sekolah.
+        </div>
+
         <form class="mt-8 space-y-6" action="{{ route('register.student.post') }}" method="POST">
             @csrf
             <div class="space-y-4">
