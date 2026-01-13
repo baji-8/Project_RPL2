@@ -15,5 +15,6 @@ step run website Laravel (first time)
 6. php artisan key:generate
 7. npm run dev (buat css)
 8. php artisan serve (preview localhost website)
-9. php artisan migrate:fresh --seed (migrate database php)
-10. php artisan storage:link
+9. buat database di phpmyadmin
+10. php artisan migrate:fresh --seed (migrate database php)
+11. php artisan storage:link
